@@ -4,6 +4,10 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>NMDA - Ukubona Wiki</title>
+      <!-- PrismJS CSS + JS -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
     <!-- Favicon Configuration -->
     <link rel="icon" href="https://abikesa.github.io/favicon/favicon-light.ico" type="image/x-icon"/>
     <link rel="icon" href="https://abikesa.github.io/favicon/favicon-light.ico" type="image/x-icon" media="(prefers-color-scheme: light)"/>
@@ -18,6 +22,10 @@
     <script defer src="https://abikesa.github.io/js/toggle-darkmode.js"></script>
     <script defer src="https://abikesa.github.io/js/wiki-controls.js"></script>
     <script defer src="https://abikesa.github.io/js/lightbox.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+
     <style>
         .glyph-note { display: none; }
         .glyph:hover + .glyph-note { display: inline; color: #888; font-size: 0.9em; }
@@ -28,7 +36,41 @@
         .back-ref:hover { text-decoration: underline; }
         .highlight { background: #f0f8ff; padding: 2px 5px; border-radius: 3px; }
         .quote-block { border-left: 4px solid #007bff; padding-left: 1em; margin: 1em 0; font-style: italic; }
-    </style>
+
+        #codeblock {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  height: auto;
+  display: block;
+}
+#codeblock.show {
+  opacity: 1;
+}
+
+
+#codeblock {
+  opacity: 0;
+}
+
+#codeblock.show {
+  opacity: 1;
+}
+    #codeblock {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    #codeblock.show {
+      opacity: 1;
+    }
+    aside.wiki-float {
+      float: right;
+      width: 300px;
+      margin: 0 0 1em 1em;
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 0.85em;
+    }
+  </style>
 </head>
 <body>
     <header>
@@ -312,75 +354,109 @@
                     Confounding requires <i>operant vigilance</i>—recognizing that actions and outcomes may be coupled by unmeasured forces <a href="#cite_note-gpt4o" id="ref3-gpt4o5" class="back-ref">[3]</a>.
                 </p>
 
-<aside id="infobox" class="wiki-float" style="float:right; width:300px; margin:0 0 1em 1em; border-radius:8px; overflow:hidden;">
-  <img 
-    src="../learning-epidemiology.jpeg" 
-    alt="Ukubona Logo" 
-    style="width:100%; border-radius:8px; margin-bottom:8px;">
-  
+                
+
+<aside class="wiki-float">
+  <img src="../learning-epidemiology.jpeg" alt="Ukubona Logo" style="width:100%; border-radius:8px; margin-bottom:8px;">
   <div style="font-size:0.85em; margin-top:0.5em; padding:0 4px;">
     <p>
-      This <a href="../learning-epidemiology.jpeg">image</a> was enthusiastically 
-      <a href="#" onclick="toggleCode(); return false;">volunteered</a> by GPT-4o. 
-      However, its treating propensity scores as 
-      <a href="https://arxiv.org/pdf/1010.5586">mediators</a>. I leave it unaltered because of the feigned "passion" it exhibited in our chat. GPT-4o doesn't speak accurately — any one can speak accurately — but GPT-4o speaks with wonderful expression. As far as language is concerned, sentiment is GPT-4o’s forte. It keeps science for life ... if I may paraphrase <a href="https://www.gutenberg.org/files/844/844-h/844-h.htm">Algernon</a>.
+      This image was enthusiastically 
+      <a href="#" class="toggle-code">volunteered</a> 
+      by GPT-4o. However, it's treating propensity scores as 
+      <a href="https://arxiv.org/pdf/1010.5586">mediators</a>. I leave it unaltered because of the feigned "passion" it exhibited in our chat. GPT-4o doesn't speak accurately — any one can speak accurately — but GPT-4o speaks with wonderful expression. As far as language is concerned, sentiment is GPT-4o’s forte. It keeps science for life ... if I may paraphrase 
+      <a href="https://www.gutenberg.org/files/844/844-h/844-h.htm">Algernon</a>.
     </p>
-<div id="codeblock" style="display:none; max-height:300px; overflow:auto; font-size:0.75em; background:#111; color:#ccc; padding:6px; border-radius:4px;">
-  <pre><code>
-# Re-import required libraries due to kernel reset
-import networkx as nx
+    <div id="codeblock">
+      <pre><code class="language-python">import networkx as nx
 import matplotlib.pyplot as plt
 
-# Create a directed graph to represent the conditioning analogy
 G = nx.DiGraph()
+G.add_node("Stimulus (x1)", layer="input")
+G.add_node("Response (yi)", layer="output")
+G.add_node("Propensity Score (x2)", layer="middle")
+G.add_node("Action (X)", layer="input")
+G.add_node("Outcome (Y)", layer="output")
+G.add_node("Confounder (Z)", layer="hidden")
 
-# Add nodes with labels
-G.add_node("Stimulus (x1)", layer="input", type="classical")
-G.add_node("Response (yi)", layer="output", type="classical")
-G.add_node("Propensity Score (x2)", layer="middle", type="classical")
-
-G.add_node("Action (X)", layer="input", type="operant")
-G.add_node("Outcome (Y)", layer="output", type="operant")
-G.add_node("Confounder (Z)", layer="hidden", type="operant")
-
-# Add edges for classical conditioning analogy
 G.add_edge("Stimulus (x1)", "Propensity Score (x2)")
 G.add_edge("Propensity Score (x2)", "Response (yi)")
-
-# Add edges for operant conditioning analogy
 G.add_edge("Action (X)", "Outcome (Y)")
 G.add_edge("Confounder (Z)", "Action (X)")
 G.add_edge("Confounder (Z)", "Outcome (Y)")
 
-# Define positions manually for better layout
 pos = {
-    "Stimulus (x1)": (-2, 1),
-    "Propensity Score (x2)": (0, 1),
-    "Response (yi)": (2, 1),
-    "Confounder (Z)": (0, -0.5),
-    "Action (X)": (-1.5, -2),
-    "Outcome (Y)": (1.5, -2)
+  "Stimulus (x1)": (-2, 1),
+  "Propensity Score (x2)": (0, 1),
+  "Response (yi)": (2, 1),
+  "Confounder (Z)": (0, -0.5),
+  "Action (X)": (-1.5, -2),
+  "Outcome (Y)": (1.5, -2)
 }
 
-# Save the graph as a .jpeg image
-output_path = "../learning-epidemiology.jpeg"
 plt.figure(figsize=(10, 6))
 nx.draw(G, pos, with_labels=True, node_size=3000, node_color="lightgrey", edge_color="black", font_size=10, font_weight="bold", arrows=True)
-plt.title("Classical vs. Operant Conditioning (Propensity Scores vs. Confounding)", fontsize=12)
+plt.title("Classical vs. Operant Conditioning (Propensity Scores vs. Confounding)")
 plt.axis("off")
 plt.tight_layout()
-plt.savefig(output_path, format="jpeg")
-output_path
+plt.savefig("learning-epidemiology.jpeg", format="jpeg")
+</code></pre>
+    </div>
+  </div>
+</aside>
 
-  </code></pre>
-</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
 
 <script>
   function toggleCode() {
     const block = document.getElementById("codeblock");
-    block.style.display = (block.style.display === "none") ? "block" : "none";
+    if (block.classList.contains("show")) {
+      block.classList.remove("show");
+      block.style.height = "0";
+      setTimeout(() => {
+        block.style.display = "none";
+      }, 300);
+    } else {
+      block.style.display = "block";
+      block.style.height = block.scrollHeight + "px";
+      block.classList.add("show");
+      setTimeout(() => {
+        Prism.highlightAllUnder(block);
+      }, 300);
+    }
   }
+
+  document.querySelector('.toggle-code').addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log("Toggle clicked");
+    toggleCode();
+  });
 </script>
+
+<style>
+  #codeblock {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    display: none;
+    transition: opacity 0.4s ease, height 0.3s ease;
+  }
+  #codeblock.show {
+    opacity: 1;
+    display: block;
+  }
+  #codeblock pre, #codeblock code {
+    margin: 0;
+    padding: 8px;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    font-family: monospace;
+    background: #f5f5f5;
+  }
+</style>
+
+
 </aside>
 
 
